@@ -16,4 +16,5 @@ class Gender extends Model
     ];
     protected $casts = ['id'=>'string'];
     protected $dates = ['deleted_at'];
+    public $incrementing =false;
 }

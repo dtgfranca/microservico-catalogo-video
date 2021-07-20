@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Traits\Uuid as TraitsUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Ramsey\Uuid\Uuid;
 
 class Category extends Model
 {
@@ -16,5 +15,6 @@ class Category extends Model
     protected $casts = [
         'id' => 'string'
     ];
+    public $incrementing =false;
 }
 
