@@ -14,7 +14,7 @@ class Gender extends Model
         'name',
         'is_active'
     ];
-    protected $casts = ['id'=>'string'];
+    protected $casts = ['id'=>'string', 'is_active'=> 'boolean'];
     protected $dates = ['deleted_at'];
     public $incrementing =false;
 }

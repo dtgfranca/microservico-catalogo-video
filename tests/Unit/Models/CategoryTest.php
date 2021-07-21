@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Category;
 use PHPUnit\Framework\TestCase;
@@ -21,24 +21,18 @@ class CategoryTest extends TestCase
     public function testFillable()
     {
         $fillable = ['name', 'description', 'is_active'];
-
-
         $this->assertEquals( $fillable, $this->category->getFillable());
     }
     public function testCasts()
     {
         $casts = [
-            'id' => 'string'
+            'id' => 'string',
+            'is_active'=>'boolean'
         ];
-
         $this->assertEquals($casts, $this->category->getCasts());
     }
     public function testincrementing()
     {
-        $casts = [
-            'id' => 'string'
-        ];
-
         $this->assertFalse($this->category->incrementing);
     }
     public function testDates()
