@@ -100,4 +100,5 @@ class CategoryTest extends TestCase
 
         $this->assertSoftDeleted('categories',['deleted_at'=>$category->deleted_at, 'id'=> $category->id]);
     }
+
 }

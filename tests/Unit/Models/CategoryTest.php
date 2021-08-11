@@ -23,6 +23,11 @@ class CategoryTest extends TestCase
         $fillable = ['name', 'description', 'is_active'];
         $this->assertEquals( $fillable, $this->category->getFillable());
     }
+    /**
+     * @
+     *
+     * @return void
+     */
     public function testCasts()
     {
         $casts = [
