@@ -52,23 +52,6 @@ class CategoryControllerTest extends TestCase
 
     }
 
-    protected function assertInvalidationRequired(TestResponse $response)
-    {
-        $this->assertInvalidationFields($response, ['name'],'required',[]);
-        $response
-        ->assertJsonMissingValidationErrors(['is_active']);
-
-    }
-
-    protected function assertInvalidationMax(TestResponse $response) {
-
-        $this->assertInvalidationFields($response, ['name'],'max.string',['max'=>255]);
-
-    }
-    protected function assertInvalidationBoolean(TestResponse $response)
-    {
-        $this->assertInvalidationFields($response, ['is_active'],'boolean',[]);
-    }
     public function testStore()
     {
         $response = $this->postJson(route('categories.store'), [
@@ -125,10 +108,8 @@ class CategoryControllerTest extends TestCase
         $response->assertJsonFragment([
             'description'=> null
         ]);
-
-
-
     }
+
     public function testDelete()
     {
 
