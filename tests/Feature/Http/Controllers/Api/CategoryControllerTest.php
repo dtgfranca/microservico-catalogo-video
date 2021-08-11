@@ -4,15 +4,13 @@ namespace Tests\Feature\Http\Controllers\Api;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Lang;
 use Tests\TestCase;
+use Tests\Traits\TestValidations;
 
 class CategoryControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, TestValidations;
 
     public function testIndex()
     {
@@ -32,15 +30,15 @@ class CategoryControllerTest extends TestCase
     }
     public function testInvalidationData()
     {
-        $response = $this->postJson(route('categories.store'), []);
-        $this->assertInvalidationRequired($response);
+        $data = [
+            'name'=>'',
+        ];
+       $this->assertInvalidationInStoreAction($data, 'required');
 
-        $response = $this->postJson(route('categories.store'), [
-            'name'=> str_repeat('a', 256),
-            'is_active'=> 'a'
-        ]);
-        $this->assertInvalidationMax($response);
-        $this->assertInvalidationBoolean($response);
+       $this->assertInvalidationInStoreAction(['name'=> str_repeat('a', 256)], 'max.string', ['max' => 255]);
+       $this->assertInvalidationInStoreAction(['is_active'=> 'a'], 'boolean');
+
+
 
         $category = factory(Category::class)->create();
 
@@ -60,28 +58,20 @@ class CategoryControllerTest extends TestCase
 
     protected function assertInvalidationRequired(TestResponse $response)
     {
-        $response->assertStatus(422)
-        ->assertJsonValidationErrors(['name'])
-        ->assertJsonMissingValidationErrors(['is_active'])
-        ->assertJsonFragment([
-            Lang::get('validation.required', ['attribute'=>'name'])
-        ]);
+        $this->assertInvalidationFields($response, ['name'],'required',[]);
+        $response
+        ->assertJsonMissingValidationErrors(['is_active']);
+
     }
 
     protected function assertInvalidationMax(TestResponse $response) {
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['name'])
-            ->assertJsonFragment([
-                Lang::get('validation.max.string', ['attribute'=>'name', 'max'=>255])
-            ]);
+
+        $this->assertInvalidationFields($response, ['name'],'max.string',['max'=>255]);
+
     }
     protected function assertInvalidationBoolean(TestResponse $response)
     {
-        $response->assertStatus(422)
-        ->assertJsonValidationErrors(['is_active'])
-        ->assertJsonFragment([
-            Lang::get('validation.boolean', ['attribute'=>'is active'])
-        ]);
+        $this->assertInvalidationFields($response, ['is_active'],'boolean',[]);
     }
     public function testStore()
     {
@@ -156,5 +146,10 @@ class CategoryControllerTest extends TestCase
 
 
 
+    }
+
+    protected function routeStore()
+    {
+        return route('categories.store');
     }
 }
