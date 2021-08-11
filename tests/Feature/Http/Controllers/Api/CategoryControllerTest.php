@@ -58,7 +58,8 @@ class CategoryControllerTest extends TestCase
 
     }
 
-    protected function assertInvalidationRequired(TestResponse $response) {
+    protected function assertInvalidationRequired(TestResponse $response)
+    {
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['name'])
         ->assertJsonMissingValidationErrors(['is_active'])
@@ -89,7 +90,6 @@ class CategoryControllerTest extends TestCase
         ]);
         $id = $response->json('id');
         $category = Category::find($id);
-
         $response->assertStatus(201)
         ->assertJson($category->toArray());
         $this->assertTrue($response->json('is_active'));
