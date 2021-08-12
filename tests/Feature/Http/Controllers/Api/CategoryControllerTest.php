@@ -4,13 +4,13 @@ namespace Tests\Feature\Http\Controllers\Api;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\TestResponse;
 use Tests\TestCase;
+use Tests\Traits\TestSaves;
 use Tests\Traits\TestValidations;
 
 class CategoryControllerTest extends TestCase
 {
-    use DatabaseMigrations, TestValidations;
+    use DatabaseMigrations, TestValidations, TestSaves;
 
     private $category;
 
@@ -54,28 +54,17 @@ class CategoryControllerTest extends TestCase
 
     public function testStore()
     {
-        $response = $this->postJson(route('categories.store'), [
-            'name' => 'test'
-        ]);
-        $id = $response->json('id');
-        $category = Category::find($id);
-        $response->assertStatus(201)
-        ->assertJson($category->toArray());
-        $this->assertTrue($response->json('is_active'));
-        $this->assertNull($response->json('description'));
+        $data = [
+            'name'=>'test'
+        ];
+        $this->assertStore($data, $data + ['description'=> null, 'is_active'=> true, 'deleted_at'=> null]);
 
-        $response = $this->postJson(route('categories.store'), [
-            'name' => 'test',
-            'is_active'=>false,
-            'description'=>'description'
-        ]);
-        $id = $response->json('id');
-
-        $response->assertJsonFragment([
-            'is_active'=>false,
-            'description'=>'description'
-        ]);
-
+        $data = [
+            'name'=>'test',
+            'description' =>'description',
+            'is_active'=>false
+        ];
+        $this->assertStore($data, $data + ['description'=> 'description', 'is_active'=> false, 'deleted_at'=> null]);
     }
     public function testUpdate()
     {
@@ -131,6 +120,10 @@ class CategoryControllerTest extends TestCase
     protected function routeUpdate()
     {
         return route('categories.update',['category'=>$this->category->id]);
+    }
+    protected function model()
+    {
+        return Category::class;
     }
 
 }
