@@ -1,8 +1,6 @@
 name: microservice-catalogo-video
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
     branches: [ develop ]
 
