@@ -14,7 +14,7 @@ abstract class BasicCrudController extends Controller
         'is_active'=> 'boolean'
     ];
 
-    public function index(Request $request)
+    public function index()
     {
         $this->model()::all();
     }

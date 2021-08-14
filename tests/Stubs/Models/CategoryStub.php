@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
 class CategoryStub extends Model
 {
     //
-    protected $table = 'category_stubs';
+    protected $table = 'categories_stubs';
     protected $fillable = ['name', 'description'];
 
     public static function createTable()
