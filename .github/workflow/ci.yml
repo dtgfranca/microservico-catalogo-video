@@ -1,0 +1,13 @@
+
+name: ci-mircroservice-catalogo-videos
+on: [push]
+jobs:
+  check-application:
+    run-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: php-cs-fixer, phpunit
+      - run: phpunit
