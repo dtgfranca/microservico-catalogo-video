@@ -8,27 +8,27 @@ use Tests\TestCase;
 
 class BasicCrudContnrollerTest extends TestCase
 {
-    // public function setUp(): void
-    // {
-    //     parent::setUp();
-    //     CategoryStub::createTable();
-    // }
-    // public function tearDown(): void
-    // {
+    public function setUp(): void
+    {
+        parent::setUp();
+        CategoryStub::createTable();
+    }
+    protected function tearDown(): void
+    {
 
-    //     parent::tearDown();
-    //     CategoryStub::dropTable();
+        parent::tearDown();
+        CategoryStub::dropTable();
 
-    // }
+    }
 
     public function testIndex()
     {
-        $this->assertTrue(true);
-        // $category = categoryStub::create(['name'=>'test_name', 'description'=>'description']);
-        // $controller = new CategoryControllerStub();
-        // $result = $controller->index()->toArray();
 
-        // $this->assertEquals([$category->toArray()], $result);
+        $category = categoryStub::create(['name'=>'test_name', 'description'=>'description']);
+        $controller = new CategoryControllerStub();
+        $result = $controller->index()->toArray();
+
+        $this->assertEquals([$category->toArray()], $result);
     }
 
 }
