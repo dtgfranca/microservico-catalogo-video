@@ -26,7 +26,6 @@ class BasicCrudContnrollerTest extends TestCase
         $category = categoryStub::create(['name'=>'test_name', 'description'=>'description']);
         $controller = new CategoryControllerStub();
         $result = $controller->index()->toArray();
-
         $this->assertEquals([$category->toArray()], $result);
     }
 
