@@ -13,7 +13,7 @@ class BasicCrudContnrollerTest extends TestCase
         parent::setUp();
         CategoryStub::createTable();
     }
-    public function tearDown(): void
+    protected function tearDown(): void
     {
 
         parent::tearDown();
