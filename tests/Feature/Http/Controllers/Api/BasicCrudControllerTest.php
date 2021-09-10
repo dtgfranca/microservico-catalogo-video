@@ -15,16 +15,20 @@ class BasicCrudContnrollerTest extends TestCase
     }
     public function tearDown(): void
     {
-        CategoryStub::dropTable();
+
         parent::tearDown();
+        CategoryStub::dropTable();
 
     }
 
-    // public function testIndex()
-    // {
-    //     categoryStub::create(['name'=>'test_name', 'description'=>'description']);
-    //     $category = new CategoryControllerStub();
-    //     $this->assertEquals([$category->toArray], $category->index());
-    // }
+    public function testIndex()
+    {
+        $category = categoryStub::create(['name'=>'test_name', 'description'=>'description']);
+
+        $controller = new CategoryControllerStub();
+
+        $result = $controller->index()->toArray();
+        $this->assertEquals([$category->toArray()], $result);
+    }
 
 }
